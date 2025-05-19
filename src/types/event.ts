@@ -9,6 +9,7 @@ export interface Event {
     name: string;
     address: string;
     city: string;
+    country: string;
   };
   imageUrl: string;
   price: {
@@ -19,4 +20,5 @@ export interface Event {
   tags: string[];
   availableTickets: number;
   featured?: boolean;
+  organizerId?: string;
 }

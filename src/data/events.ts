@@ -11,7 +11,8 @@ export const events: Event[] = [
     location: {
       name: "Parc de la Villette",
       address: "211 Avenue Jean Jaurès",
-      city: "Paris"
+      city: "Paris",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
@@ -32,7 +33,8 @@ export const events: Event[] = [
     location: {
       name: "Palais des Congrès",
       address: "2 Place de la Porte Maillot",
-      city: "Paris"
+      city: "Paris",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
@@ -52,7 +54,8 @@ export const events: Event[] = [
     location: {
       name: "Place Bellecour",
       address: "Place Bellecour",
-      city: "Lyon"
+      city: "Lyon",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1600077063877-6b1dae98deef?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
@@ -72,7 +75,8 @@ export const events: Event[] = [
     location: {
       name: "Centre Pompidou",
       address: "Place Georges-Pompidou",
-      city: "Paris"
+      city: "Paris",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
@@ -92,7 +96,8 @@ export const events: Event[] = [
     location: {
       name: "Porte de Versailles",
       address: "1 Place de la Porte de Versailles",
-      city: "Paris"
+      city: "Paris",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
@@ -112,7 +117,8 @@ export const events: Event[] = [
     location: {
       name: "Philharmonie de Paris",
       address: "221 Avenue Jean Jaurès",
-      city: "Paris"
+      city: "Paris",
+      country: "France"
     },
     imageUrl: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3",
     price: {
