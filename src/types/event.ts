@@ -61,9 +61,46 @@ export interface Event {
   availableTickets: number;
   featured?: boolean;
   organizerId?: string;
+  organizerName?: string; // Ajouté pour l'intégration avec MySQL
   sessions?: EventSession[];
   reviews?: EventReview[];
   discussionGroup?: DiscussionGroup;
   notifications?: Notification[];
   status: 'upcoming' | 'ongoing' | 'completed';
+  createdAt?: string; // Ajouté pour l'intégration avec MySQL
+  updatedAt?: string; // Ajouté pour l'intégration avec MySQL
+}
+
+// Types pour l'intégration MySQL
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string; // En pratique, toujours stocké crypté
+  role: 'user' | 'organizer' | 'admin';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Ticket {
+  id: string;
+  eventId: string;
+  userId: string;
+  type: 'standard' | 'vip';
+  price: number;
+  purchaseDate: string;
+  status: 'valid' | 'used' | 'cancelled';
+  qrCode?: string;
+}
+
+export interface Payment {
+  id: string;
+  ticketId: string;
+  userId: string;
+  amount: number;
+  currency: string;
+  status: 'pending' | 'completed' | 'failed' | 'refunded';
+  paymentMethod: string;
+  transactionId: string;
+  date: string;
 }
