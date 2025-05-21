@@ -1,0 +1,180 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion - Billeto</title>
+    <meta name="description" content="Connectez-vous à votre compte Billeto" />
+    <meta name="author" content="Billeto" />
+    <link rel="stylesheet" href="./styles.css">
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  </head>
+
+  <body>
+    <header class="sticky-header">
+      <div class="container header-container">
+        <div class="logo-container">
+          <a href="/" class="logo-link">
+            <div class="logo">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                class="logo-icon"
+              >
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 10h20" />
+                <path d="M6 15h1" />
+                <path d="M11 15h1" />
+                <path d="M16 15h1" />
+              </svg>
+            </div>
+            <span class="logo-text">Billeto</span>
+          </a>
+        </div>
+        <nav class="main-nav">
+          <div class="nav-links">
+            <a href="/" class="nav-link">Accueil</a>
+            <a href="/events.html" class="nav-link">Événements</a>
+            <a href="/about.html" class="nav-link">À propos</a>
+          </div>
+          <div class="auth-buttons">
+            <a href="/login.html" class="button outline active">Connexion</a>
+            <a href="/register.html" class="button primary">S'inscrire</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <main class="flex-center py-large">
+      <div class="container">
+        <div class="auth-card">
+          <div class="auth-card-header">
+            <h1 class="auth-card-title">Connexion</h1>
+            <p class="auth-card-description">
+              Entrez vos identifiants pour accéder à votre compte
+            </p>
+          </div>
+          <div class="auth-card-content">
+            <form id="loginForm" class="form">
+              <div class="form-field">
+                <label for="email">Email</label>
+                <input 
+                  id="email" 
+                  type="email" 
+                  placeholder="exemple@email.com"
+                  required
+                  class="input"
+                />
+              </div>
+              <div class="form-field">
+                <div class="flex-between">
+                  <label for="password">Mot de passe</label>
+                  <a href="/reset-password.html" class="text-link small">
+                    Mot de passe oublié?
+                  </a>
+                </div>
+                <input 
+                  id="password" 
+                  type="password"
+                  required
+                  class="input"
+                />
+              </div>
+              <button type="submit" id="loginButton" class="button primary full-width">
+                Se connecter
+              </button>
+            </form>
+          </div>
+          <div class="auth-card-footer">
+            <div class="text-center full-width">
+              Vous n'avez pas de compte?
+              <a href="/register.html" class="text-link">
+                Créez un compte
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3 class="footer-title">Billeto</h3>
+            <p class="footer-text">
+              La plateforme de billetterie en ligne pour tous vos événements
+            </p>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Liens rapides</h3>
+            <ul class="footer-links">
+              <li><a href="/" class="footer-link">Accueil</a></li>
+              <li><a href="/events.html" class="footer-link">Événements</a></li>
+              <li><a href="/about.html" class="footer-link">À propos</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Aide</h3>
+            <ul class="footer-links">
+              <li><a href="/faq.html" class="footer-link">FAQ</a></li>
+              <li><a href="/contact.html" class="footer-link">Contact</a></li>
+              <li><a href="/terms.html" class="footer-link">Conditions générales</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Newsletter</h3>
+            <p class="footer-text">
+              Inscrivez-vous pour recevoir les dernières informations sur les événements
+            </p>
+            <form class="footer-form">
+              <input type="email" placeholder="votre@email.com" class="input" />
+              <button type="submit" class="button-small">Envoyer</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year">2023</span> Billeto. Tous droits réservés.</p>
+          <script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+          </script>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const loginButton = document.getElementById('loginButton');
+        
+        if (email && password) {
+          loginButton.textContent = "Connexion en cours...";
+          
+          // Simuler une connexion (à remplacer par un appel à une API PHP)
+          setTimeout(function() {
+            // Stocker information de session simulée (dans une vraie application, ceci serait géré par PHP)
+            localStorage.setItem("user", JSON.stringify({ email, name: email.split('@')[0] }));
+            
+            // Afficher un message de succès
+            alert("Connexion réussie !");
+            
+            // Rediriger vers la page d'événements
+            window.location.href = "/events.html";
+          }, 1000);
+        } else {
+          alert("Veuillez remplir tous les champs.");
+        }
+      });
+    </script>
+  </body>
+</html>
