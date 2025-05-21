@@ -1,0 +1,405 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Événements - Billeto</title>
+    <meta name="description" content="Découvrez tous les événements à venir sur Billeto" />
+    <meta name="author" content="Billeto" />
+    <link rel="stylesheet" href="./styles.css">
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+  </head>
+
+  <body>
+    <header class="sticky-header">
+      <div class="container header-container">
+        <div class="logo-container">
+          <a href="/" class="logo-link">
+            <div class="logo">
+              <svg 
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                stroke-width="2" 
+                stroke-linecap="round" 
+                stroke-linejoin="round" 
+                class="logo-icon"
+              >
+                <rect width="20" height="14" x="2" y="5" rx="2" />
+                <path d="M2 10h20" />
+                <path d="M6 15h1" />
+                <path d="M11 15h1" />
+                <path d="M16 15h1" />
+              </svg>
+            </div>
+            <span class="logo-text">Billeto</span>
+          </a>
+        </div>
+        <nav class="main-nav">
+          <div class="nav-links">
+            <a href="index.html" class="nav-link">Accueil</a>
+            <a href="events.html" class="nav-link active">Événements</a>
+            <a href="about.html" class="nav-link">À propos</a>
+          </div>
+          <div class="auth-buttons">
+            <a href="login.html" class="button outline">Connexion</a>
+            <a href="register.html" class="button primary">S'inscrire</a>
+          </div>
+        </nav>
+      </div>
+    </header>
+    
+    <main>
+      <!-- Hero Section -->
+      <section class="hero-gradient">
+        <div class="container text-center">
+          <h1 class="hero-title">Découvrez tous nos événements</h1>
+          <p class="hero-text">
+            Trouvez et réservez vos places pour les meilleurs événements à venir
+          </p>
+          <div class="button-group">
+            <a href="#" class="button white" id="createEventBtn">
+              Créer un événement
+            </a>
+            <a href="#events-list" class="button outline-white">
+              Voir les événements
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Filter Section -->
+      <section class="section bg-light">
+        <div class="container">
+          <div class="filter-card">
+            <div class="filter-grid">
+              <div class="filter-group">
+                <label>Recherche</label>
+                <input type="text" placeholder="Nom d'événement, description..." class="input" id="searchInput" />
+              </div>
+              <div class="filter-group">
+                <label>Catégorie</label>
+                <select class="input" id="categoryFilter">
+                  <option value="">Toutes les catégories</option>
+                  <option value="Concert">Concert</option>
+                  <option value="Conférence">Conférence</option>
+                  <option value="Sport">Sport</option>
+                  <option value="Exposition">Exposition</option>
+                  <option value="Atelier">Atelier</option>
+                  <option value="Festival">Festival</option>
+                  <option value="Théâtre">Théâtre</option>
+                  <option value="Gastronomie">Gastronomie</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Ville</label>
+                <select class="input" id="cityFilter">
+                  <option value="">Toutes les villes</option>
+                  <option value="Paris">Paris</option>
+                  <option value="Lyon">Lyon</option>
+                  <option value="Marseille">Marseille</option>
+                  <option value="Bordeaux">Bordeaux</option>
+                  <option value="Nice">Nice</option>
+                </select>
+              </div>
+              <div class="filter-group">
+                <label>Date</label>
+                <input type="date" class="input" id="dateFilter" />
+              </div>
+              <div class="filter-group">
+                <label>Trier par</label>
+                <select class="input" id="sortFilter">
+                  <option value="date-asc">Date (plus récent)</option>
+                  <option value="date-desc">Date (plus ancien)</option>
+                  <option value="price-asc">Prix (croissant)</option>
+                  <option value="price-desc">Prix (décroissant)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Events List -->
+      <section class="section" id="events-list">
+        <div class="container">
+          <h2 class="section-title" id="eventsCount">Événements (6)</h2>
+          <div class="event-grid" id="eventsContainer">
+            <!-- Event cards will be loaded dynamically -->
+            <!-- Event Card 1 -->
+            <div class="event-card fade-in" data-category="Concert" data-city="Paris" data-date="2023-06-15">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Festival de Musique">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Concert</span>
+                <h3 class="event-title">Festival de Musique</h3>
+                <div class="event-meta">
+                  <span class="event-date">15 Juin 2023</span>
+                  <span class="event-location">Paris</span>
+                </div>
+                <p class="event-description">Une journée complète de musique live avec des artistes internationaux.</p>
+                <div class="event-footer">
+                  <span class="event-price">50 €</span>
+                  <a href="event-details.html?id=1" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Event Card 2 -->
+            <div class="event-card fade-in" data-category="Conférence" data-city="Lyon" data-date="2023-06-20">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Conférence Tech">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Conférence</span>
+                <h3 class="event-title">Conférence Tech</h3>
+                <div class="event-meta">
+                  <span class="event-date">20 Juin 2023</span>
+                  <span class="event-location">Lyon</span>
+                </div>
+                <p class="event-description">Explorez les dernières tendances technologiques avec des experts du secteur.</p>
+                <div class="event-footer">
+                  <span class="event-price">80 €</span>
+                  <a href="event-details.html?id=2" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="event-card fade-in" data-category="Exposition" data-city="Marseille" data-date="2023-06-25">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1560439514-4e9645039924?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Exposition d'Art">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Exposition</span>
+                <h3 class="event-title">Exposition d'Art</h3>
+                <div class="event-meta">
+                  <span class="event-date">25 Juin 2023</span>
+                  <span class="event-location">Marseille</span>
+                </div>
+                <p class="event-description">Découvrez des œuvres d'art contemporain créées par des artistes locaux.</p>
+                <div class="event-footer">
+                  <span class="event-price">15 €</span>
+                  <a href="event-details.html?id=3" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Event Card 4 -->
+            <div class="event-card fade-in" data-category="Sport" data-city="Paris" data-date="2023-07-10">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1519834984312-305e41774069?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=764&q=80" alt="Marathon">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Sport</span>
+                <h3 class="event-title">Marathon de Paris</h3>
+                <div class="event-meta">
+                  <span class="event-date">10 Juillet 2023</span>
+                  <span class="event-location">Paris</span>
+                </div>
+                <p class="event-description">Participez au marathon annuel à travers les rues de Paris.</p>
+                <div class="event-footer">
+                  <span class="event-price">30 €</span>
+                  <a href="event-details.html?id=4" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Event Card 5 -->
+            <div class="event-card fade-in" data-category="Concert" data-city="Nice" data-date="2023-07-15">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Soirée DJ">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Concert</span>
+                <h3 class="event-title">Soirée DJ</h3>
+                <div class="event-meta">
+                  <span class="event-date">15 Juillet 2023</span>
+                  <span class="event-location">Nice</span>
+                </div>
+                <p class="event-description">Une nuit entière avec les meilleurs DJs du moment.</p>
+                <div class="event-footer">
+                  <span class="event-price">25 €</span>
+                  <a href="event-details.html?id=5" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Event Card 6 -->
+            <div class="event-card fade-in" data-category="Atelier" data-city="Bordeaux" data-date="2023-07-20">
+              <div class="event-image">
+                <img src="https://images.unsplash.com/photo-1603228254119-e6a4d095dc59?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Atelier Cuisine">
+              </div>
+              <div class="event-details">
+                <span class="event-tag">Atelier</span>
+                <h3 class="event-title">Atelier Cuisine</h3>
+                <div class="event-meta">
+                  <span class="event-date">20 Juillet 2023</span>
+                  <span class="event-location">Bordeaux</span>
+                </div>
+                <p class="event-description">Apprenez à cuisiner avec un chef étoilé dans cet atelier gastronomique.</p>
+                <div class="event-footer">
+                  <span class="event-price">75 €</span>
+                  <a href="event-details.html?id=6" class="button small">Détails</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- No results message -->
+          <div id="noResults" class="no-results" style="display: none;">
+            <h3>Aucun événement ne correspond à votre recherche</h3>
+            <p>Essayez de modifier vos critères de recherche</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-column">
+            <h3 class="footer-title">Billeto</h3>
+            <p class="footer-text">
+              La plateforme de billetterie en ligne pour tous vos événements
+            </p>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Liens rapides</h3>
+            <ul class="footer-links">
+              <li><a href="index.html" class="footer-link">Accueil</a></li>
+              <li><a href="events.html" class="footer-link">Événements</a></li>
+              <li><a href="about.html" class="footer-link">À propos</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Aide</h3>
+            <ul class="footer-links">
+              <li><a href="faq.html" class="footer-link">FAQ</a></li>
+              <li><a href="contact.html" class="footer-link">Contact</a></li>
+              <li><a href="terms.html" class="footer-link">Conditions générales</a></li>
+            </ul>
+          </div>
+          <div class="footer-column">
+            <h3 class="footer-title">Newsletter</h3>
+            <p class="footer-text">
+              Inscrivez-vous pour recevoir les dernières informations sur les événements
+            </p>
+            <form class="footer-form">
+              <input type="email" placeholder="votre@email.com" class="input" />
+              <button type="submit" class="button-small">Envoyer</button>
+            </form>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy; <span id="current-year">2023</span> Billeto. Tous droits réservés.</p>
+          <script>
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+          </script>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Vérifier si l'utilisateur est connecté
+      const user = JSON.parse(localStorage.getItem('user'));
+      const createEventBtn = document.getElementById('createEventBtn');
+      
+      if (createEventBtn) {
+        createEventBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          if (user) {
+            // Si l'utilisateur est connecté, rediriger vers la page de création d'événement
+            window.location.href = "create-event.html";
+          } else {
+            // Sinon, rediriger vers la page de connexion
+            alert("Vous devez être connecté pour créer un événement");
+            window.location.href = "login.html";
+          }
+        });
+      }
+      
+      // Filtres d'événements
+      const searchInput = document.getElementById('searchInput');
+      const categoryFilter = document.getElementById('categoryFilter');
+      const cityFilter = document.getElementById('cityFilter');
+      const dateFilter = document.getElementById('dateFilter');
+      const sortFilter = document.getElementById('sortFilter');
+      const eventsContainer = document.getElementById('eventsContainer');
+      const eventCards = Array.from(document.querySelectorAll('.event-card'));
+      const noResults = document.getElementById('noResults');
+      const eventsCount = document.getElementById('eventsCount');
+      
+      function filterEvents() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const category = categoryFilter.value;
+        const city = cityFilter.value;
+        const date = dateFilter.value;
+        
+        let filteredEvents = eventCards.filter(card => {
+          const cardTitle = card.querySelector('.event-title').textContent.toLowerCase();
+          const cardDescription = card.querySelector('.event-description').textContent.toLowerCase();
+          const cardCategory = card.dataset.category;
+          const cardCity = card.dataset.city;
+          const cardDate = card.dataset.date;
+          
+          const matchesSearch = cardTitle.includes(searchTerm) || cardDescription.includes(searchTerm);
+          const matchesCategory = category === '' || cardCategory === category;
+          const matchesCity = city === '' || cardCity === city;
+          const matchesDate = date === '' || cardDate === date;
+          
+          return matchesSearch && matchesCategory && matchesCity && matchesDate;
+        });
+        
+        // Trier les événements
+        const sortOption = sortFilter.value;
+        filteredEvents.sort((a, b) => {
+          if (sortOption === 'date-asc') {
+            return a.dataset.date.localeCompare(b.dataset.date);
+          } else if (sortOption === 'date-desc') {
+            return b.dataset.date.localeCompare(a.dataset.date);
+          } else if (sortOption === 'price-asc') {
+            const priceA = parseFloat(a.querySelector('.event-price').textContent);
+            const priceB = parseFloat(b.querySelector('.event-price').textContent);
+            return priceA - priceB;
+          } else if (sortOption === 'price-desc') {
+            const priceA = parseFloat(a.querySelector('.event-price').textContent);
+            const priceB = parseFloat(b.querySelector('.event-price').textContent);
+            return priceB - priceA;
+          }
+          return 0;
+        });
+        
+        // Afficher ou masquer les événements
+        eventCards.forEach(card => {
+          card.style.display = 'none';
+        });
+        
+        filteredEvents.forEach(card => {
+          card.style.display = 'block';
+        });
+        
+        // Mettre à jour le compteur d'événements
+        eventsCount.textContent = `Événements (${filteredEvents.length})`;
+        
+        // Afficher un message si aucun événement ne correspond
+        if (filteredEvents.length === 0) {
+          noResults.style.display = 'block';
+        } else {
+          noResults.style.display = 'none';
+        }
+      }
+      
+      // Ajouter des écouteurs d'événements aux filtres
+      searchInput.addEventListener('input', filterEvents);
+      categoryFilter.addEventListener('change', filterEvents);
+      cityFilter.addEventListener('change', filterEvents);
+      dateFilter.addEventListener('input', filterEvents);
+      sortFilter.addEventListener('change', filterEvents);
+    </script>
+  </body>
+</html>

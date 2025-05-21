@@ -4,8 +4,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Connexion - Billeto</title>
-    <meta name="description" content="Connectez-vous à votre compte Billeto" />
+    <title>Inscription - Billeto</title>
+    <meta name="description" content="Inscrivez-vous à Billeto pour gérer vos billets d'événements" />
     <meta name="author" content="Billeto" />
     <link rel="stylesheet" href="./styles.css">
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
@@ -16,7 +16,7 @@
     <header class="sticky-header">
       <div class="container header-container">
         <div class="logo-container">
-          <a href="index.html" class="logo-link">
+          <a href="/" class="logo-link">
             <div class="logo">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -45,8 +45,8 @@
             <a href="about.html" class="nav-link">À propos</a>
           </div>
           <div class="auth-buttons">
-            <a href="login.html" class="button outline active">Connexion</a>
-            <a href="register.html" class="button primary">S'inscrire</a>
+            <a href="login.html" class="button outline">Connexion</a>
+            <a href="register.html" class="button primary active">S'inscrire</a>
           </div>
         </nav>
       </div>
@@ -56,13 +56,23 @@
       <div class="container">
         <div class="auth-card">
           <div class="auth-card-header">
-            <h1 class="auth-card-title">Connexion</h1>
+            <h1 class="auth-card-title">Créer un compte</h1>
             <p class="auth-card-description">
-              Entrez vos identifiants pour accéder à votre compte
+              Inscrivez-vous pour accéder à toutes les fonctionnalités de Billeto
             </p>
           </div>
           <div class="auth-card-content">
-            <form id="loginForm" class="form">
+            <form id="registerForm" class="form">
+              <div class="form-field">
+                <label for="name">Nom complet</label>
+                <input 
+                  id="name" 
+                  type="text" 
+                  placeholder="Votre nom complet"
+                  required
+                  class="input"
+                />
+              </div>
               <div class="form-field">
                 <label for="email">Email</label>
                 <input 
@@ -74,12 +84,7 @@
                 />
               </div>
               <div class="form-field">
-                <div class="flex-between">
-                  <label for="password">Mot de passe</label>
-                  <a href="reset-password.html" class="text-link small">
-                    Mot de passe oublié?
-                  </a>
-                </div>
+                <label for="password">Mot de passe</label>
                 <input 
                   id="password" 
                   type="password"
@@ -87,16 +92,25 @@
                   class="input"
                 />
               </div>
-              <button type="submit" id="loginButton" class="button primary full-width">
-                Se connecter
+              <div class="form-field">
+                <label for="confirmPassword">Confirmer le mot de passe</label>
+                <input 
+                  id="confirmPassword" 
+                  type="password"
+                  required
+                  class="input"
+                />
+              </div>
+              <button type="submit" id="registerButton" class="button primary full-width">
+                S'inscrire
               </button>
             </form>
           </div>
           <div class="auth-card-footer">
             <div class="text-center full-width">
-              Vous n'avez pas de compte?
-              <a href="register.html" class="text-link">
-                Créez un compte
+              Vous avez déjà un compte?
+              <a href="login.html" class="text-link">
+                Se connecter
               </a>
             </div>
           </div>
@@ -150,26 +164,33 @@
     </footer>
 
     <script>
-      document.getElementById('loginForm').addEventListener('submit', function(e) {
+      document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         
+        const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
-        const loginButton = document.getElementById('loginButton');
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const registerButton = document.getElementById('registerButton');
         
-        if (email && password) {
-          loginButton.textContent = "Connexion en cours...";
+        if (password !== confirmPassword) {
+          alert("Les mots de passe ne correspondent pas.");
+          return;
+        }
+        
+        if (name && email && password && confirmPassword) {
+          registerButton.textContent = "Inscription en cours...";
           
-          // Simuler une connexion (à remplacer par un appel à une API PHP)
+          // Simuler une inscription (à remplacer par un appel à une API PHP)
           setTimeout(function() {
-            // Stocker information de session simulée (dans une vraie application, ceci serait géré par PHP)
-            localStorage.setItem("user", JSON.stringify({ email, name: email.split('@')[0] }));
+            // Stocker information de session simulée
+            localStorage.setItem("user", JSON.stringify({ name, email }));
             
             // Afficher un message de succès
-            alert("Connexion réussie !");
+            alert("Inscription réussie !");
             
             // Rediriger vers la page d'événements
-            window.location.href = "events.html";
+            window.location.href = "/events.html";
           }, 1000);
         } else {
           alert("Veuillez remplir tous les champs.");
