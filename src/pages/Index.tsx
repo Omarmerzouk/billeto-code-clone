@@ -3,7 +3,7 @@ import React from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import EventCard from '@/components/EventCard';
-import { events } from '@/data/events';
+import { events } from '@/data/events'; // Updated import path
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 

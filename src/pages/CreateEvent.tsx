@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import EventForm from '@/components/EventForm';
 import { toast } from 'sonner';
-import { events } from '@/data/events';
+import { events } from '@/data/events'; // Updated import path
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

@@ -50,25 +50,27 @@ export interface Event {
     address: string;
     city: string;
     country: string;
-  };
+  } | null; // Null for online events
+  eventType: 'online' | 'in-person' | 'hybrid';
   imageUrl: string;
   price: {
     standard: number;
     vip?: number;
-  };
+  } | null; // Null for free events
+  isFree: boolean;
   category: string;
   tags: string[];
   availableTickets: number;
   featured?: boolean;
   organizerId?: string;
-  organizerName?: string; // Ajouté pour l'intégration avec MySQL
+  organizerName?: string;
   sessions?: EventSession[];
   reviews?: EventReview[];
   discussionGroup?: DiscussionGroup;
   notifications?: Notification[];
   status: 'upcoming' | 'ongoing' | 'completed';
-  createdAt?: string; // Ajouté pour l'intégration avec MySQL
-  updatedAt?: string; // Ajouté pour l'intégration avec MySQL
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 // Types pour l'intégration MySQL
