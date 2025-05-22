@@ -18,12 +18,14 @@ const EventsPage = () => {
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
   const [onlyFreeEvents, setOnlyFreeEvents] = useState(false);
+  const [sortBy, setSortBy] = useState('date-desc');
   
   const categories = ['Tous', ...new Set(events.map(event => event.category))];
   const cities = ['Toutes', ...new Set(events.map(event => event.location?.city).filter(Boolean))];
   const countries = ['Tous', ...new Set(events.map(event => event.location?.country).filter(Boolean))];
   
-  const filteredEvents = events.filter(event => {
+  // Apply filters immediately
+  let filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           event.description.toLowerCase().includes(searchQuery.toLowerCase());
     
@@ -39,6 +41,26 @@ const EventsPage = () => {
     const matchesFree = !onlyFreeEvents || event.isFree;
     
     return matchesSearch && matchesCategory && matchesCity && matchesCountry && matchesFree;
+  });
+  
+  // Apply sorting
+  filteredEvents = [...filteredEvents].sort((a, b) => {
+    switch (sortBy) {
+      case 'date-desc':
+        return new Date(b.date).getTime() - new Date(a.date).getTime();
+      case 'date-asc':
+        return new Date(a.date).getTime() - new Date(b.date).getTime();
+      case 'price-asc':
+        const priceA = a.isFree ? 0 : (a.price || 0);
+        const priceB = b.isFree ? 0 : (b.price || 0);
+        return priceA - priceB;
+      case 'price-desc':
+        const priceADesc = a.isFree ? 0 : (a.price || 0);
+        const priceBDesc = b.isFree ? 0 : (b.price || 0);
+        return priceBDesc - priceADesc;
+      default:
+        return 0;
+    }
   });
 
   return (
@@ -129,11 +151,15 @@ const EventsPage = () => {
                         <Label htmlFor="free-events" className="cursor-pointer">Événements gratuits</Label>
                       </div>
                     </div>
-                    <select className="w-full p-2 border rounded-md">
-                      <option>Date (plus récent)</option>
-                      <option>Date (plus ancien)</option>
-                      <option>Prix (croissant)</option>
-                      <option>Prix (décroissant)</option>
+                    <select 
+                      className="w-full p-2 border rounded-md"
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                    >
+                      <option value="date-desc">Date (plus récent)</option>
+                      <option value="date-asc">Date (plus ancien)</option>
+                      <option value="price-asc">Prix (croissant)</option>
+                      <option value="price-desc">Prix (décroissant)</option>
                     </select>
                   </div>
                 </div>
