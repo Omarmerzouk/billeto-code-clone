@@ -9,16 +9,19 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PlusCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
 
 const EventsPage = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedCountry, setSelectedCountry] = useState('');
+  const [onlyFreeEvents, setOnlyFreeEvents] = useState(false);
   
   const categories = ['Tous', ...new Set(events.map(event => event.category))];
-  const cities = ['Toutes', ...new Set(events.map(event => event.location.city))];
-  const countries = ['Tous', ...new Set(events.map(event => event.location.country))];
+  const cities = ['Toutes', ...new Set(events.map(event => event.location?.city).filter(Boolean))];
+  const countries = ['Tous', ...new Set(events.map(event => event.location?.country).filter(Boolean))];
   
   const filteredEvents = events.filter(event => {
     const matchesSearch = event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -28,12 +31,14 @@ const EventsPage = () => {
                            event.category === selectedCategory;
     
     const matchesCity = selectedCity === '' || selectedCity === 'Toutes' || 
-                       event.location.city === selectedCity;
+                       (event.location && event.location.city === selectedCity);
                        
     const matchesCountry = selectedCountry === '' || selectedCountry === 'Tous' || 
-                          event.location.country === selectedCountry;
+                          (event.location && event.location.country === selectedCountry);
     
-    return matchesSearch && matchesCategory && matchesCity && matchesCountry;
+    const matchesFree = !onlyFreeEvents || event.isFree;
+    
+    return matchesSearch && matchesCategory && matchesCity && matchesCountry && matchesFree;
   });
 
   return (
@@ -113,7 +118,17 @@ const EventsPage = () => {
                     </select>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Trier par</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-sm font-medium">Trier par</label>
+                      <div className="flex items-center space-x-2">
+                        <Switch
+                          id="free-events"
+                          checked={onlyFreeEvents}
+                          onCheckedChange={setOnlyFreeEvents}
+                        />
+                        <Label htmlFor="free-events" className="cursor-pointer">Événements gratuits</Label>
+                      </div>
+                    </div>
                     <select className="w-full p-2 border rounded-md">
                       <option>Date (plus récent)</option>
                       <option>Date (plus ancien)</option>
