@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import EventForm from '@/components/EventForm';
 import { toast } from 'sonner';
-import { events } from '@/data/events'; // Updated import path
+import { events } from '@/data/events';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -67,10 +67,6 @@ const CreateEvent = () => {
       id: (events.length + 1).toString(),
       ...eventData,
       availableTickets: parseInt(eventData.availableTickets),
-      price: {
-        standard: parseInt(eventData.standardPrice),
-        ...(eventData.vipPrice && { vip: parseInt(eventData.vipPrice) }),
-      },
       status: 'upcoming',
       sessions: sessions.length > 0 ? sessions : undefined,
       organizerId: "current-user", // Dans une vraie app, ce serait l'ID de l'utilisateur connecté

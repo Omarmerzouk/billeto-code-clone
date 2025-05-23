@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 const formSchema = z.object({
   title: z.string().min(3, { message: 'Le titre doit contenir au moins 3 caractères' }),
@@ -24,6 +25,8 @@ const formSchema = z.object({
   availableTickets: z.string().refine((val) => !isNaN(parseInt(val)), { message: 'Doit être un nombre' }),
   standardPrice: z.string().refine((val) => !isNaN(parseInt(val)), { message: 'Doit être un nombre' }),
   vipPrice: z.string().optional(),
+  eventType: z.enum(['in-person', 'online', 'hybrid']),
+  isFree: z.boolean().default(false),
 });
 
 interface EventFormProps {
@@ -48,8 +51,13 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
       availableTickets: '',
       standardPrice: '',
       vipPrice: '',
+      eventType: 'in-person' as const,
+      isFree: false,
     },
   });
+
+  const eventType = form.watch('eventType');
+  const isFree = form.watch('isFree');
 
   const handleSubmit = (data: any) => {
     // Restructurer les données pour correspondre au modèle Event
@@ -58,18 +66,22 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
       description: data.description,
       date: data.date,
       time: data.time,
-      location: {
+      location: data.eventType === 'online' ? null : {
         name: data['location.name'],
         address: data['location.address'],
         city: data['location.city'],
         country: data['location.country'],
       },
+      eventType: data.eventType,
       imageUrl: data.imageUrl,
       category: data.category,
       tags: data.tags.split(',').map((tag: string) => tag.trim()),
       availableTickets: data.availableTickets,
-      standardPrice: data.standardPrice,
-      vipPrice: data.vipPrice,
+      isFree: data.isFree,
+      price: data.isFree ? null : {
+        standard: parseInt(data.standardPrice),
+        ...(data.vipPrice ? { vip: parseInt(data.vipPrice) } : {}),
+      },
     };
     
     onSubmit(formattedData);
@@ -115,6 +127,43 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
                 )}
               />
               
+              <FormField
+                control={form.control}
+                name="eventType"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Type d'événement</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex space-x-4"
+                      >
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="in-person" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Présentiel</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="online" />
+                          </FormControl>
+                          <FormLabel className="font-normal">En ligne</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="hybrid" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Hybride</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
@@ -146,46 +195,18 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
               </div>
             </div>
             
-            <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Lieu de l'événement</h2>
-              
-              <FormField
-                control={form.control}
-                name="location.name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nom du lieu</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Parc de la Villette" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="location.address"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Adresse</FormLabel>
-                    <FormControl>
-                      <Input placeholder="211 Avenue Jean Jaurès" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {(eventType === 'in-person' || eventType === 'hybrid') && (
+              <div className="space-y-4">
+                <h2 className="text-xl font-semibold">Lieu de l'événement</h2>
+                
                 <FormField
                   control={form.control}
-                  name="location.city"
+                  name="location.name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Ville</FormLabel>
+                      <FormLabel>Nom du lieu</FormLabel>
                       <FormControl>
-                        <Input placeholder="Paris" {...field} />
+                        <Input placeholder="Parc de la Villette" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -194,19 +215,49 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
                 
                 <FormField
                   control={form.control}
-                  name="location.country"
+                  name="location.address"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Pays</FormLabel>
+                      <FormLabel>Adresse</FormLabel>
                       <FormControl>
-                        <Input placeholder="France" {...field} />
+                        <Input placeholder="211 Avenue Jean Jaurès" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="location.city"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Ville</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Paris" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="location.country"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Pays</FormLabel>
+                        <FormControl>
+                          <Input placeholder="France" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
-            </div>
+            )}
             
             <div className="space-y-4">
               <h2 className="text-xl font-semibold">Détails supplémentaires</h2>
@@ -237,11 +288,11 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
                         {...field}
                       >
                         <option value="">Sélectionner une catégorie</option>
-                        <option value="Concert">Concert</option>
                         <option value="Conférence">Conférence</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Exposition">Exposition</option>
-                        <option value="Gastronomie">Gastronomie</option>
+                        <option value="Séminaire">Séminaire</option>
+                        <option value="Sommet">Sommet</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Webinar">Webinar</option>
                         <option value="Autre">Autre</option>
                       </select>
                     </FormControl>
@@ -257,7 +308,7 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
                   <FormItem>
                     <FormLabel>Tags (séparés par des virgules)</FormLabel>
                     <FormControl>
-                      <Input placeholder="Jazz, Festival, Musique" {...field} />
+                      <Input placeholder="Technologie, Business, Innovation" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -278,35 +329,55 @@ const EventForm = ({ onSubmit }: EventFormProps) => {
                 )}
               />
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="standardPrice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Prix standard (€)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="45" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="vipPrice"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Prix VIP (€) (optionnel)</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="120" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="isFree"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <input
+                        type="checkbox"
+                        checked={field.value}
+                        onChange={field.onChange}
+                        className="h-4 w-4"
+                      />
+                    </FormControl>
+                    <FormLabel>Événement gratuit</FormLabel>
+                  </FormItem>
+                )}
+              />
+              
+              {!isFree && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="standardPrice"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Prix standard (€)</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="45" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={form.control}
+                    name="vipPrice"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Prix VIP (€) (optionnel)</FormLabel>
+                        <FormControl>
+                          <Input type="number" placeholder="120" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
             </div>
             
             <Button type="submit" className="w-full">Créer l'événement</Button>

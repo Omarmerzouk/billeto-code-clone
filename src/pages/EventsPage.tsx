@@ -51,12 +51,12 @@ const EventsPage = () => {
       case 'date-asc':
         return new Date(a.date).getTime() - new Date(b.date).getTime();
       case 'price-asc':
-        const priceA = a.isFree ? 0 : (a.price || 0);
-        const priceB = b.isFree ? 0 : (b.price || 0);
+        const priceA = a.isFree ? 0 : (a.price ? a.price.standard : 0);
+        const priceB = b.isFree ? 0 : (b.price ? b.price.standard : 0);
         return priceA - priceB;
       case 'price-desc':
-        const priceADesc = a.isFree ? 0 : (a.price || 0);
-        const priceBDesc = b.isFree ? 0 : (b.price || 0);
+        const priceADesc = a.isFree ? 0 : (a.price ? a.price.standard : 0);
+        const priceBDesc = b.isFree ? 0 : (b.price ? b.price.standard : 0);
         return priceBDesc - priceADesc;
       default:
         return 0;
